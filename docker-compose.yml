@@ -9,8 +9,8 @@ services:
       - "3000:3000"
     depends_on:
       - mongodb
-    environment:
-      - MONGO_URI=mongodb://admin:password@mongodb:27017/mydatabase  # Updated with credentials
+    # environment:
+    #   - MONGO_URI=mongodb://admin:password@mongodb:27017/mydatabase  # Updated with credentials
 
   mongodb:
     image: mongo:latest
@@ -22,7 +22,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin  # Root username
       - MONGO_INITDB_ROOT_PASSWORD=supersecret  # Root password
-      - MONGO_INITDB_DATABASE=mydatabase  # Default database
+      # - MONGO_INITDB_DATABASE=mydatabase  # Default database
     volumes:
       - mongo-data:/data/db
 
