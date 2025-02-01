@@ -10,19 +10,25 @@ services:
     depends_on:
       - mongodb
     environment:
-      - MONGO_URI=mongodb://mongodb:27017/mydatabase
+      - MONGO_URI=mongodb://admin:password@mongodb:27017/mydatabase  # Updated with credentials
 
   mongodb:
     image: mongo:latest
     container_name: mongodb
+    restart: always
     ports:
       - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin  # Root username
+      - MONGO_INITDB_ROOT_PASSWORD=password  # Root password
+      - MONGO_INITDB_DATABASE=mydatabase  # Default database
     volumes:
       - mongo-data:/data/db
 
   mongo-express:
     image: mongo-express:latest
     container_name: mongo-express
+    restart: always
     ports:
       - "8081:8081"
     environment:
@@ -35,12 +41,12 @@ services:
 
   frontend:
     build:
-      context: ./frontend  # Assuming your frontend Dockerfile is in the 'frontend' folder
+      context: ./frontend
     container_name: frontend
     ports:
-      - "80:80"  # Exposing port 80
+      - "80:80"
     depends_on:
-      - backend  # If your frontend depends on the backend to be up
+      - backend
 
 volumes:
   mongo-data:
