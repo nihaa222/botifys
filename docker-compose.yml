@@ -39,6 +39,8 @@ services:
       - ME_CONFIG_MONGO_ADMINPASSWORD=supersecret
     depends_on:
       - mongodb
+     command: >
+      bash -c "until nc -z -v -w30 mongodb 27017; do echo 'Waiting for MongoDB...'; sleep 5; done; /entrypoint.sh"
 
   frontend:
     build:
