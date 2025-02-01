@@ -9,8 +9,6 @@ services:
       - "3000:3000"
     depends_on:
       - mongodb
-    # environment:
-    #   - MONGO_URI=mongodb://admin:password@mongodb:27017/mydatabase  # Updated with credentials
 
   mongodb:
     image: mongo:latest
@@ -19,11 +17,16 @@ services:
     ports:
       - "27017:27017"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin  # Root username
-      - MONGO_INITDB_ROOT_PASSWORD=supersecret  # Root password
-      # - MONGO_INITDB_DATABASE=mydatabase  # Default database
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=supersecret
     volumes:
       - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 5s
 
   mongo-express:
     image: mongo-express:latest
@@ -37,9 +40,8 @@ services:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
       - ME_CONFIG_MONGO_ADMINPASSWORD=supersecret
     depends_on:
-      - mongodb
-    command: >
-      bash -c "until nc -z -v -w30 mongodb 27017; do echo 'Waiting for MongoDB...'; sleep 5; done; /entrypoint.sh"
+      mongodb:
+        condition: service_healthy
 
   frontend:
     build:
