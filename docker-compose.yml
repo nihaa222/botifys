@@ -11,12 +11,11 @@ services:
       - mongodb
     # environment:
     #   - MONGO_URI=mongodb://admin:password@mongodb:27017/mydatabase  # Updated with credentials
-    # ii
+
   mongodb:
     image: mongo:latest
     container_name: mongodb
     restart: always
-   
     ports:
       - "27017:27017"
     environment:
@@ -39,7 +38,7 @@ services:
       - ME_CONFIG_MONGO_ADMINPASSWORD=supersecret
     depends_on:
       - mongodb
-     command: >
+    command: >
       bash -c "until nc -z -v -w30 mongodb 27017; do echo 'Waiting for MongoDB...'; sleep 5; done; /entrypoint.sh"
 
   frontend:
