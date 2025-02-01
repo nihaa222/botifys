@@ -33,5 +33,14 @@ services:
     depends_on:
       - mongodb
 
+  frontend:
+    build:
+      context: ./frontend  # Assuming your frontend Dockerfile is in the 'frontend' folder
+    container_name: frontend
+    ports:
+      - "80:80"  # Exposing port 80
+    depends_on:
+      - backend  # If your frontend depends on the backend to be up
+
 volumes:
   mongo-data:
