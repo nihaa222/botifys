@@ -5,6 +5,7 @@ import Open from "../Components/Open";
 import Header from "../Components/Header";
 
 function App() {
+  const [text, settext] = useState("")
   const [opened, setOpen] = useState(false)
 
   useEffect(() => {
@@ -42,7 +43,7 @@ function App() {
       { opacity: 1, scale: 1, duration: 0.5, delay: 1.2 }
     );
   }, []);
-  
+
 
   return (
     <>{!opened && (<Open open={opened} setOpen={setOpen}/>)}
