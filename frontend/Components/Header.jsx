@@ -4,7 +4,7 @@ function Header() {
     useEffect(() => {
         const testFn = async () => {
             try {
-                const response = await fetch("http://localhost:3000")
+                const response = await fetch("http://16.171.253.208:3000/")
 
                 const data = await response.json();  // or response.text() depending on the response format
                 console.log(data);
